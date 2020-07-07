@@ -83,5 +83,7 @@ def main():
     save_button = driver.find_element_by_css_selector('table.advanced-dns a.text-green')
     save_button.click()
 
+    driver.close()
+
 if __name__ == "__main__":
     main()
