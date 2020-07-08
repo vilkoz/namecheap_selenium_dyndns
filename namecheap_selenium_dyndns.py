@@ -32,24 +32,31 @@ def get_external_ip():
     return ip.text
 
 def main():
+    print('getting external ip')
     external_ip = get_external_ip()
+    print('external_ip: ', external_ip)
 
+    print('logging in namecheap')
     driver.get("https://www.namecheap.com/myaccount/login/")
 
     random_delay(10)
 
     enter_input("input[name=LoginUserName].nc_username",os.getenv('NAMECHEAP_USERNAME'))
 
+    print('username entered')
     random_delay(10)
 
     enter_input("input[name=LoginPassword].nc_password",os.getenv('NAMECHEAP_PASSWORD'))
 
+    print('password entered')
     random_delay(5)
 
     css_selector_click('input[type=submit].nc_login_submit')
+    print('submit pressed')
 
     random_delay(5)
 
+    print('change url to domain control panel')
     driver.get('https://ap.www.namecheap.com/Domains/DomainControlPanel/{}/advancedns'.format(os.getenv('NAMECHEAP_DOMAIN_NAME')))
 
     sleep(3)
@@ -58,9 +65,9 @@ def main():
     host_records_table = driver.find_elements_by_css_selector('table')[0]
     print('host_records_table', host_records_table)
 
+    print('scrolling to table with host records')
     driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table);
     driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table);
-    # import pdb; pdb.set_trace()
 
     ip_inputs = host_records_table.find_elements_by_css_selector('td.value')
     print('ip_inputs', ip_inputs)
@@ -74,14 +81,19 @@ def main():
             pass
         random_delay(2)
 
+    print('clicked on the all ip inputs')
+
     inputs = driver.find_elements_by_css_selector('td.value input')
     for i in inputs:
         random_delay(2)
         driver.execute_script('arguments[0].value = "{}"'.format(external_ip), i)
 
-    # import pdb; pdb.set_trace()
+    print('changed ip to {}'.format(external_ip))
+
     save_button = driver.find_element_by_css_selector('table.advanced-dns a.text-green')
     save_button.click()
+
+    print('pressed save button')
 
     driver.close()
 
