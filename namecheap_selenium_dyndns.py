@@ -2,11 +2,15 @@
 
 from selenium import webdriver
 from selenium.common.exceptions import ElementClickInterceptedException
+from selenium.webdriver.chrome.options import Options
 from time import sleep
 from random import randint
 from dotenv import load_dotenv
 load_dotenv()
 import os
+from xvfbwrapper import Xvfb
+vdisplay = Xvfb(width=1920, height=1080, colordepth=16)
+vdisplay.start()
 
 def random_delay(max_value=10):
     sleep(randint(0, max_value))
@@ -23,6 +27,8 @@ def enter_input(css_selector, value):
     random_delay(2)
     input_element.send_keys(value)
 
+chrome_options = Options()
+chrome_options.add_argument("--headless")
 driver = webdriver.Chrome()
 
 def get_external_ip():
@@ -96,6 +102,7 @@ def main():
     print('pressed save button')
 
     driver.close()
+    vdisplay.stop()
 
 if __name__ == "__main__":
     main()
