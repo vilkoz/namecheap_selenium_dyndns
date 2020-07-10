@@ -1,7 +1,7 @@
 FROM selenium/standalone-chrome
 
 USER root
-RUN apt update && apt install -y xvfb python3-pip
+RUN apt update && apt install -y xvfb python3-pip dnsutils
 RUN python3 -m pip install selenium
 
 USER seluser
