@@ -10,6 +10,8 @@ load_dotenv()
 import os
 from xvfbwrapper import Xvfb
 
+from ExternalIp import ExternalIp
+
 vdisplay = Xvfb(width=1920, height=1080, colordepth=24)
 vdisplay.start()
 
@@ -35,9 +37,7 @@ chrome_options.add_argument("--window-size=1920,1080")
 driver = webdriver.Chrome(options=chrome_options)
 
 def get_external_ip():
-    driver.get("https://ifconfig.me")
-    ip = driver.find_element_by_id("ip_address")
-    return ip.text
+    return str(ExternalIp())
 
 def main():
     print('getting external ip')
