@@ -9,11 +9,14 @@ from dotenv import load_dotenv
 load_dotenv()
 import os
 from xvfbwrapper import Xvfb
-vdisplay = Xvfb(width=1920, height=1080, colordepth=16)
+
+vdisplay = Xvfb(width=1920, height=1080, colordepth=24)
 vdisplay.start()
 
 def random_delay(max_value=10):
-    sleep(randint(0, max_value))
+    delay = randint(0, max_value) 
+    print('random_delay max: {}, selected: {}'.format(max_value, delay))
+    sleep(delay)
 
 def css_selector_click(css_selector):
     input_element = driver.find_element_by_css_selector(css_selector)
@@ -28,13 +31,12 @@ def enter_input(css_selector, value):
     input_element.send_keys(value)
 
 chrome_options = Options()
-chrome_options.add_argument("--headless")
-driver = webdriver.Chrome()
+chrome_options.add_argument("--window-size=1920,1080")
+driver = webdriver.Chrome(options=chrome_options)
 
 def get_external_ip():
     driver.get("https://ifconfig.me")
     ip = driver.find_element_by_id("ip_address")
-    print(ip.text)
     return ip.text
 
 def main():
