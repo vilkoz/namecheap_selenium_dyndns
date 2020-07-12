@@ -48,12 +48,12 @@ class NamecheapIpChanger:
 
         self._random_delay(10)
 
-        self._enter_input("input[name=LoginUserName].nc_username",os.getenv('NAMECHEAP_USERNAME'))
+        self._enter_input("input[name=LoginUserName].nc_username", os.getenv('NAMECHEAP_USERNAME'))
 
         logging.debug('username entered')
         self._random_delay(10)
 
-        self._enter_input("input[name=LoginPassword].nc_password",os.getenv('NAMECHEAP_PASSWORD'))
+        self._enter_input("input[name=LoginPassword].nc_password", os.getenv('NAMECHEAP_PASSWORD'))
 
         logging.debug('password entered')
         self._random_delay(5)
@@ -64,7 +64,8 @@ class NamecheapIpChanger:
     def __find_host_records_table(self):
         self._random_delay(5)
         logging.debug('change url to domain control panel')
-        self.driver.get('https://ap.www.namecheap.com/Domains/DomainControlPanel/{}/advancedns'.format(os.getenv('NAMECHEAP_DOMAIN_NAME')))
+        self.driver.get('https://ap.www.namecheap.com/Domains/DomainControlPanel/{}/advancedns'
+                        .format(os.getenv('NAMECHEAP_DOMAIN_NAME')))
         sleep(3)
         self._random_delay(2)
 
@@ -72,8 +73,8 @@ class NamecheapIpChanger:
         logging.debug('host_records_table {}'.format(host_records_table))
 
         logging.debug('scrolling to table with host records')
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table);
-        self.driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table);
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table)
+        self.driver.execute_script("arguments[0].scrollIntoView(true);", host_records_table)
         return host_records_table
 
     def __enter_external_ip_to_records_table(self, host_records_table):
@@ -105,7 +106,7 @@ class NamecheapIpChanger:
 
 
     def _random_delay(self, max_value=10):
-        delay = randint(0, max_value) 
+        delay = randint(0, max_value)
         logging.debug('self._random_delay max: {}, selected: {}'.format(max_value, delay))
         sleep(delay)
 
