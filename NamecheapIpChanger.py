@@ -5,6 +5,8 @@ import logging
 from selenium import webdriver
 from selenium.common.exceptions import ElementClickInterceptedException
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.common.action_chains import ActionChains
+from selenium.webdriver.common.keys import Keys
 from time import sleep
 from random import randint
 from dotenv import load_dotenv
@@ -97,7 +99,16 @@ class NamecheapIpChanger:
         inputs = self.driver.find_elements_by_css_selector('td.value input')
         for i in inputs:
             self._random_delay(2)
-            self.driver.execute_script('arguments[0].value = "{}"'.format(self.external_ip), i)
+            i.click()
+            ActionChains(self.driver)         \
+                    .move_to_element(i)       \
+                    .key_down(Keys.CONTROL)   \
+                    .send_keys('a')           \
+                    .key_up(Keys.CONTROL)     \
+                    .key_down(Keys.BACKSPACE) \
+                    .key_up(Keys.BACKSPACE)   \
+                    .perform()
+            i.send_keys(self.external_ip)
 
         logging.debug('changed ip to {}'.format(self.external_ip))
 
