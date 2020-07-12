@@ -34,7 +34,8 @@ def main():
     while True:
         try:
             current_ip = get_current_ip_dns()
-            external_ip = str(ExternalIp)
+            external_ip = str(ExternalIp())
+            print('current_ip "%s" external_ip "%s"' % (current_ip, external_ip))
         except (DomainNotFoundException, ExternalIp.ExternalIpNotFoundError) as e:
             print(e)
             sleep(60)
