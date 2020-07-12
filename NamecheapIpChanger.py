@@ -17,8 +17,9 @@ class NamecheapIpChanger:
 
     def __init__(self, external_ip=None):
         logging.basicConfig(filename='namecheap_ip_changer.log', level=logging.DEBUG)
-        self.vdisplay = Xvfb(width=1920, height=1080, colordepth=24, fbdir="/tmp/")
-        self.vdisplay.start()
+        if not os.getenv('DEBUG_IP_CHANGER'):
+            self.vdisplay = Xvfb(width=1920, height=1080, colordepth=24, fbdir="/tmp/")
+            self.vdisplay.start()
 
         chrome_options = Options()
         chrome_options.add_argument("--window-size=1920,1080")
@@ -29,8 +30,9 @@ class NamecheapIpChanger:
         self.external_ip = external_ip
 
     def cleanup(self):
-        self.driver.close()
-        self.vdisplay.stop()
+        if not os.getenv('DEBUG_IP_CHANGER'):
+            self.driver.close()
+            self.vdisplay.stop()
 
     def change_ip(self):
         load_dotenv()
