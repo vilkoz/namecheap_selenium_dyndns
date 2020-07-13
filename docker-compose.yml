@@ -3,3 +3,9 @@ services:
   namecheap_selenium_dyndns:
     build: .
     restart: always
+    environment:
+     # Please fill these environment variables
+     #- NAMECHEAP_USERNAME=
+     #- NAMECHEAP_PASSWORD=
+     #- NAMECHEAP_DOMAIN_NAME=
+     #- DOMAIN_CHECK_TIME_PERIOD=60
