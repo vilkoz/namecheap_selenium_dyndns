@@ -1,6 +1,6 @@
 import os
 from time import sleep
-from subprocess import check_output
+from subprocess import check_output, CalledProcessError
 
 from dotenv import load_dotenv
 
@@ -14,7 +14,10 @@ class DomainNotFoundException(Exception):
 
 def get_current_ip_dns():
     #TODO disable output from nslookup
-    output = check_output(['nslookup', os.getenv('NAMECHEAP_DOMAIN_NAME'), '8.8.8.8'])
+    try:
+        output = check_output(['nslookup', os.getenv('NAMECHEAP_DOMAIN_NAME'), '8.8.8.8'])
+    except CalledProcessError as e:
+        raise DomainNotFoundException('Domain name was not found because of {}'.format(str(e)))
     output = output.decode('utf-8')
     print(output)
     ip = None
