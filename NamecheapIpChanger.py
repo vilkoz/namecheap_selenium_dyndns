@@ -20,6 +20,15 @@ class NamecheapIpChanger:
     def __init__(self, external_ip=None):
         logging.basicConfig(filename='namecheap_ip_changer.log', level=logging.DEBUG)
         if not os.getenv('DEBUG_IP_CHANGER'):
+            """
+            For DEBUG output of xvfb dump images:
+            cd /tmp
+            for i in (seq 10000)
+                sleep 0.5
+                cp Xvfb_screen0{,.xwd}
+                convert Xvfb_screen0.xwd Xvfb_screen0_$i.png
+            end
+            """
             self.vdisplay = Xvfb(width=1920, height=1080, colordepth=24, fbdir="/tmp/")
             self.vdisplay.start()
 
